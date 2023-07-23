@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import BaseAuth from '@/views/auth/BaseAuth.vue'
+import BaseMenu from '@/views/menu/BaseMenu.vue'
 
 Vue.use(VueRouter)
 
@@ -13,11 +15,34 @@ const routes = [
   {
     path: '/about',
     name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    component: () => import('../views/AboutView.vue')
+  },
+  {
+    path: '/auth',
+    redirect: '/auth/login',
+    component: BaseAuth,
+    children: [{
+      path: 'login',
+      name: 'Login',
+      component: () => import('@/views/auth/login/LoginView.vue')
+    }]
+  },
+  {
+    path: '/login',
+    redirect: '/auth/login',
+  },
+  {
+    path: '/menu',
+    redirect: '/menu/dashboard',
+    component: BaseMenu,
+    children: [
+      {
+        path: 'dashboard',
+        name: 'Dashboard',
+        component: () => import('@/views/menu/dashboard/DashboardView.vue')
+      }
+    ]
+  },
 ]
 
 const router = new VueRouter({
