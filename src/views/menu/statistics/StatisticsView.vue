@@ -1,7 +1,5 @@
 <template>
-  <div class="px-12 py-4">
-    <router-view></router-view>
-  </div>
+  <h2>Menu Statistics Page</h2>
 </template>
 
 <script>

@@ -9,13 +9,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    component: () => import('../views/AboutView.vue')
+    redirect: '/menu',
   },
   {
     path: '/auth',
@@ -40,7 +34,12 @@ const routes = [
         path: 'dashboard',
         name: 'Dashboard',
         component: () => import('@/views/menu/dashboard/DashboardView.vue')
-      }
+      },
+      {
+        path: 'statistics',
+        name: 'Statistics',
+        component: () => import('@/views/menu/statistics/StatisticsView.vue')
+      },
     ]
   },
 ]
