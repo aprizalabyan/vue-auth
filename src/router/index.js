@@ -4,6 +4,10 @@ import HomeView from '../views/HomeView.vue'
 import BaseAuth from '@/views/auth/BaseAuth.vue'
 import BaseMenu from '@/views/menu/BaseMenu.vue'
 
+import LoginView from '@/views/auth/login/LoginView.vue'
+import DashboardView from '@/views/menu/dashboard/DashboardView.vue'
+import StatisticsView from '@/views/menu/statistics/StatisticsView.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -18,7 +22,7 @@ const routes = [
     children: [{
       path: 'login',
       name: 'Login',
-      component: () => import('@/views/auth/login/LoginView.vue')
+      component: LoginView,
     }]
   },
   {
@@ -29,16 +33,19 @@ const routes = [
     path: '/menu',
     redirect: '/menu/dashboard',
     component: BaseMenu,
+    meta: {
+      requiresAuth: true,
+    },
     children: [
       {
         path: 'dashboard',
         name: 'Dashboard',
-        component: () => import('@/views/menu/dashboard/DashboardView.vue')
+        component: DashboardView,
       },
       {
         path: 'statistics',
         name: 'Statistics',
-        component: () => import('@/views/menu/statistics/StatisticsView.vue')
+        component: StatisticsView,
       },
     ]
   },
@@ -48,6 +55,24 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach(async (to, from, next) => {
+  let session = !!localStorage.getItem('userSession')
+
+  if (to.name === from.name && to.params === from.params) {
+    next(false)
+  }
+
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!session) {
+      next({ name: 'Login'})
+    } else {
+      next()
+    }
+  }
+
+  next()
 })
 
 export default router

@@ -8,41 +8,37 @@
         <h4>Login Page</h4>
       </v-card-title>
       <v-card-text>
-        <v-form v-model="valid" @submit.prevent="loginMethods">
-          <v-col cols="12" md="4" class="pa-0">
-            <v-text-field
-              v-model="loginForm.username"
-              :rules="[(v) => !!v || 'Username required !']"
-              label="Username"
-              required
-              outlined
-              class="rounded-lg"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" md="4" class="pa-0">
-            <v-text-field
-              v-model="loginForm.password"
-              :rules="[(v) => !!v || 'Password required !']"
-              label="Password"
-              :type="showPass ? 'text' : 'password'"
-              :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-              required
-              outlined
-              class="rounded-lg"
-              @click:append="showPass = !showPass"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" md="4" class="pa-0">
-            <v-btn 
-              dark
-              color="teal accent-4"
-              type="submit" 
-              style="width: 100%;"  
-              class="rounded-lg"
-            >
-              Login
-            </v-btn>
-          </v-col>
+        <v-form v-model="valid" @submit.prevent="loginMethods"
+          >
+          <v-text-field
+            v-model="loginForm.username"
+            :rules="[(v) => !!v || 'Username required !']"
+            label="Username"
+            required
+            outlined
+            dense
+            class="rounded-lg"
+          ></v-text-field>
+          <v-text-field
+            v-model="loginForm.password"
+            :rules="[(v) => !!v || 'Password required !']"
+            label="Password"
+            :type="showPass ? 'text' : 'password'"
+            :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+            required
+            outlined
+            dense
+            class="rounded-lg"
+            @click:append="showPass = !showPass"
+          ></v-text-field>
+          <v-btn
+            color="teal accent-4"
+            type="submit"
+            class="rounded-lg custom-btn"
+            :disabled="!valid"
+          >
+            Login
+          </v-btn>
         </v-form>
       </v-card-text>
     </v-card>
@@ -50,6 +46,9 @@
 </template>
 
 <script>
+import router from '@/router';
+import { mapActions } from 'vuex';
+
 export default {
   components: {},
   data() {
@@ -64,27 +63,43 @@ export default {
   },
   computed: {},
   methods: {
-    loginMethods() {
-      console.log("login");
+    ...mapActions("auth", ["login"]),
+    async loginMethods() {
+      try {
+        await this.login(this.loginForm)
+        router.push({ path: '/'})
+      } catch (error) {
+
+      } finally {
+
+      }
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
-::v-deep(.v-input__slot){
-  min-height: 46px !important;
-  .v-label{
+::v-deep(.v-input__slot) {
+  // min-height: 46px !important;
+  .v-label {
     top: auto;
     font-size: 14px;
   }
-  input{
+  input {
     font-size: 14px;
   }
-  .v-input__append-inner{
+  .v-input__append-inner {
     align-self: center;
     margin: auto;
+    .v-input__icon {
+      .v-icon {
+        font-size: 20px;
+      }
+    }
   }
+}
+.custom-btn{
+  color: #fff;
+  width: 100%;
 }
 </style>
