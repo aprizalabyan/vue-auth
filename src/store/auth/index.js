@@ -20,7 +20,7 @@ export default {
         })
         .then((res) => {
           resolve(res)
-          setSession(res.data.token)
+          setSession(res.data)
         })
         .catch((err) => {
           reject(err)

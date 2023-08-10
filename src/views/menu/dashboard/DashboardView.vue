@@ -1,25 +1,22 @@
 <template>
   <div>
-    <h2>Menu Dashboard Page</h2>
-    <div class="d-flex">
+    <h3>Welcome back {{ username }}</h3>
+    <!-- <div class="d-flex mt-4">
       <div v-for="data in dataImg" :key="data.id" class="me-2">
         <img 
           :src="'https://fastly.picsum.photos/id/8/5000/' + data.name"
           width="200px"
           @error="handleError"
         >
-        <!-- <img 
-          v-else
-          src="@/assets/logo.png"
-          width="200px"
-        > -->
         {{ isError }}
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
+import { getSession } from '@/helpers/session'
+
 export default {
   data(){
     return {
@@ -44,6 +41,9 @@ export default {
   computed: {
     getSrc(){
       return this.isError ? '@/assets/logo.png' : 'https://fastly.picsum.photos/id/8/5000/333.jpg?hmac=OeG5ufhPYQBd6Rx1TAldAuF92lhCzAhKQKttGfawWuA'
+    },
+    username() {
+      return getSession().username
     }
   },
   methods: {
@@ -54,6 +54,9 @@ export default {
       this.didLoad = false
     }
   },
+  mounted() {
+    console.log(getSession());
+  }
 }
 </script>
 
