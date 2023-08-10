@@ -19,6 +19,9 @@ const routes = [
     path: '/auth',
     redirect: '/auth/login',
     component: BaseAuth,
+    meta: {
+      hideForAuth: true,
+    },
     children: [{
       path: 'login',
       name: 'Login',
@@ -49,6 +52,10 @@ const routes = [
       },
     ]
   },
+  {
+    path: '*',
+    redirect: '/'
+  }
 ]
 
 const router = new VueRouter({
@@ -69,6 +76,14 @@ router.beforeEach(async (to, from, next) => {
       next({ name: 'Login'})
     } else {
       next()
+    }
+  }
+
+  if (to.matched.some((record) => record.meta.hideForAuth)) {
+    if (session) {
+      next({ path: "/" });
+    } else {
+      next();
     }
   }
 

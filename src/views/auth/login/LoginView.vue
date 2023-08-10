@@ -4,11 +4,17 @@
     style="height: 100%"
   >
     <v-card class="mx-auto pa-6" width="352">
-      <v-card-title class="justify-center mb-4">
+      <v-card-title class="justify-center mb-2">
         <h4>Login Page</h4>
       </v-card-title>
       <v-card-text>
-        <v-form v-model="valid" @submit.prevent="loginMethods"
+        <div class="d-flex justify-end mb-4">
+          <v-col cols="6" class="d-flex flex-column pa-0">
+            <span class="text-small font-italic">test user >> kminchelle</span>
+            <span class="text-small font-italic">test pass >> 0lelplR</span>
+          </v-col>
+        </div>
+        <v-form v-model="valid" @submit.prevent="loginMethod"
           >
           <v-text-field
             v-model="loginForm.username"
@@ -64,12 +70,12 @@ export default {
   computed: {},
   methods: {
     ...mapActions("auth", ["login"]),
-    async loginMethods() {
+    async loginMethod() {
       try {
         await this.login(this.loginForm)
         router.push({ path: '/'})
       } catch (error) {
-
+        alert('Wrong username or password !')
       } finally {
 
       }
@@ -101,5 +107,9 @@ export default {
 .custom-btn{
   color: #fff;
   width: 100%;
+}
+.text-small{
+  font-size: 11px;
+  line-height: 1.2;
 }
 </style>

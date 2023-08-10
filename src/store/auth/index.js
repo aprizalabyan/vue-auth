@@ -1,5 +1,5 @@
 import axios from "axios"
-import { setSession, getSession } from "@/helpers/session"
+import { setSession, getSession, clearSession } from "@/helpers/session"
 import router from "@/router"
 
 export default {
@@ -20,14 +20,18 @@ export default {
         })
         .then((res) => {
           resolve(res)
-          console.log(res.data);
-
           setSession(res.data.token)
         })
         .catch((err) => {
           reject(err)
         })
       })
-    }
+    },
+    logout() {
+      if (router.currentRoute.name !== 'Login') {
+        clearSession()
+        router.push('/login')
+      }
+    },
   }
 }

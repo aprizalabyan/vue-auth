@@ -26,6 +26,7 @@
       dense
       style="text-transform: none; letter-spacing: normal"
       color="transparent"
+      @click="logoutMethod"
     >
       <v-icon color="red">mdi-logout</v-icon>
       <span class="red--text">Logout</span>
@@ -34,12 +35,20 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   data() {
     return {
       selectedItem: "",
     };
   },
+  methods: {
+    ...mapActions("auth", ["logout"]),
+    logoutMethod() {
+      this.logout()
+    }
+  }
 };
 </script>
 

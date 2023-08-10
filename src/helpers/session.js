@@ -5,3 +5,7 @@ export function setSession(data) {
 export function getSession() {
   return localStorage.getItem('userSession')
 }
+
+export function clearSession() {
+  return localStorage.clear()
+}
