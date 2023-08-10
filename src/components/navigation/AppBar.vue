@@ -3,29 +3,24 @@
     <v-toolbar-title>Vue Auth</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn
+      v-for="(item, i) in navMenu" :key="i"
       elevation="0"
       dense
-      style="text-transform: none; letter-spacing: normal"
-      color="transparent"
-      to="/menu/dashboard"
+      text
+      active-class="btn-nav-active"
+      :ripple="false"
+      class="btn-nav"
+      :to="item.to"
     >
-      <span class="">Dashboard</span>
-    </v-btn>
-    <v-btn
-      elevation="0"
-      dense
-      style="text-transform: none; letter-spacing: normal"
-      color="transparent"
-      to="/menu/statistics"
-    >
-      <span class="">Statistics</span>
+      <span>{{ item.text }}</span>
     </v-btn>
     <v-spacer></v-spacer>
     <v-btn
       elevation="0"
       dense
-      style="text-transform: none; letter-spacing: normal"
-      color="transparent"
+      text
+      class="btn-nav"
+      :ripple="false"
       @click="logoutMethod"
     >
       <v-icon color="red">mdi-logout</v-icon>
@@ -40,7 +35,16 @@ import { mapActions } from 'vuex';
 export default {
   data() {
     return {
-      selectedItem: "",
+      navMenu: [
+        {
+          text: "Dashboard",
+          to: "/menu/dashboard",
+        },
+        {
+          text: "Statistics",
+          to: "/menu/statistics",
+        },
+      ]
     };
   },
   methods: {
@@ -52,5 +56,18 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.btn-nav{
+  text-transform: none;
+  letter-spacing: normal;
+  margin: 0px 8px;
+  padding: 0px !important;
+  height: 20px !important;
+}
+.btn-nav-active{
+  color: #00bfa5;
+}
+.v-btn--active::before, .v-btn:hover::before{
+  opacity: 0 !important; 
+}
 </style>
