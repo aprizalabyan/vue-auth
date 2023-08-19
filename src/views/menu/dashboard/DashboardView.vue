@@ -1,23 +1,28 @@
 <template>
   <div>
     <h3>Welcome back {{ username }}</h3>
-    <!-- <div class="d-flex mt-4">
-      <div v-for="data in dataImg" :key="data.id" class="me-2">
-        <img 
-          :src="'https://fastly.picsum.photos/id/8/5000/' + data.name"
-          width="200px"
-          @error="handleError"
-        >
-        {{ isError }}
-      </div>
-    </div> -->
+    <v-row class="mt-4">
+      <v-col cols="6" md="4">
+        <highcharts :options="optionLine" />
+      </v-col>
+      <v-col cols="6" md="4">
+        <highcharts :options="optionBar" />
+      </v-col>
+      <v-col cols="6" md="4">
+        <highcharts :options="optionArea" />
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
 import { getSession } from '@/helpers/session'
+import { Chart } from 'highcharts-vue'
 
 export default {
+  components: {
+    highcharts: Chart,
+  },
   data(){
     return {
       isError: false,
@@ -39,23 +44,150 @@ export default {
     }
   },
   computed: {
-    getSrc(){
-      return this.isError ? '@/assets/logo.png' : 'https://fastly.picsum.photos/id/8/5000/333.jpg?hmac=OeG5ufhPYQBd6Rx1TAldAuF92lhCzAhKQKttGfawWuA'
-    },
     username() {
       return getSession().username
-    }
+    },
+    optionLine() {
+      return {
+        chart: {
+          type: "line",
+          height: 300,
+          backgroundColor: "transparent"
+        },
+        title: {
+          text: "Prasarana Air Bersih",
+          style: {
+            fontSize: "12px"
+          }
+        },
+        yAxis: {
+          title: {
+            text: "Liter"
+          },
+          labels: {
+            style: {
+              fontSize: 10,
+            },
+          },
+        },
+        xAxis: {
+          labels: {
+            style: {
+              fontSize: 10,
+            },
+          },
+        },
+        series: [
+          {
+            name: "Lombok Timur",
+            data: [[2019, 2500], [2020, 3000], [2021, 3200]]
+          },
+          {
+            name: "Lombok Tengah",
+            data: [[2019, 2650], [2020, 2800], [2021, 3800]]
+          }
+        ],
+        credits: {
+          enabled: false
+        }
+      }
+    },
+    optionBar() {
+      return {
+        chart: {
+          type: "column",
+          height: 300,
+          backgroundColor: "transparent"
+        },
+        title: {
+          text: "Tingkat kepadatan penduduk",
+          style: {
+            fontSize: "12px"
+          }
+        },
+        yAxis: {
+          title: {
+            text: "Juta orang"
+          },
+          labels: {
+            style: {
+              fontSize: 10,
+            },
+          },
+        },
+        xAxis: {
+          labels: {
+            style: {
+              fontSize: 10,
+            },
+          },
+        },
+        series: [
+          {
+            name: "Lombok Timur",
+            data: [[2019, 2], [2020, 4], [2021, 5]]
+          },
+          {
+            name: "Lombok Tengah",
+            data: [[2019, 3], [2020, 3], [2021, 4]]
+          }
+        ],
+        credits: {
+          enabled: false
+        }
+      }
+    },
+    optionArea() {
+      return {
+        chart: {
+          type: "area",
+          height: 300,
+          backgroundColor: "transparent"
+        },
+        title: {
+          text: "Intensitas Curah Hujan",
+          style: {
+            fontSize: "12px"
+          }
+        },
+        yAxis: {
+          title: {
+            text: "%"
+          },
+          labels: {
+            style: {
+              fontSize: 10,
+            },
+          },
+        },
+        xAxis: {
+          labels: {
+            style: {
+              fontSize: 10,
+            },
+          },
+        },
+        series: [
+          {
+            name: "Lombok Timur",
+            data: [["Maret", 25], ['April', 35], ["Mei", 30]]
+          },
+          {
+            name: "Lombok Tengah",
+            data: [["Maret", 40], ['April', 60], ["Mei", 35]]
+          }
+        ],
+        credits: {
+          enabled: false
+        }
+      }
+    },
   },
   methods: {
-    handleError(e){
-      e.target.src = 'https://fastly.picsum.photos/id/25/5000/3333.jpg?hmac=yCz9LeSs-i72Ru0YvvpsoECnCTxZjzGde805gWrAHkM'
-      console.log(e.target.src, 'error');
-      this.isError = true
-      this.didLoad = false
-    }
+
   },
   mounted() {
-    console.log(getSession());
+    
   }
 }
 </script>

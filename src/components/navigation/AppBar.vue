@@ -21,6 +21,7 @@
       text
       class="btn-nav"
       :ripple="false"
+      :loading="loading"
       @click="logoutMethod"
     >
       <v-icon color="red">mdi-logout</v-icon>
@@ -44,13 +45,18 @@ export default {
           text: "Statistics",
           to: "/menu/statistics",
         },
-      ]
+      ],
+      loading: false,
     };
   },
   methods: {
     ...mapActions("auth", ["logout"]),
     logoutMethod() {
-      this.logout()
+      this.loading = true
+      setTimeout(() => {
+        this.logout()
+        this.loading = false
+      }, 2000);
     }
   }
 };

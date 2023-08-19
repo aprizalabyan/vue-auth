@@ -41,13 +41,22 @@
             color="teal accent-4"
             type="submit"
             class="rounded-lg custom-btn"
-            :disabled="!valid"
+            :disabled="!valid || loading"
+            :loading="loading"
           >
             Login
           </v-btn>
         </v-form>
       </v-card-text>
     </v-card>
+    <div class="d-flex justify-center mt-6 px-4" style="width: 352px;">
+      <span class="text-small text-center">
+        Basic login authentication, made with vue & vuetify as framework. Using
+        <a href="https://dummyjson.com/" target="_blank" class="font-italic">dummyjson.com</a>
+        for auth and user management API. Copyright ©
+        <a href="https://github.com/aprizalabyan" target="_blank" style="text-decoration: none; color: black;" class="font-italic">github.com/aprizalabyan.</a>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -60,6 +69,7 @@ export default {
   data() {
     return {
       valid: false,
+      loading: false,
       loginForm: {
         username: "",
         password: "",
@@ -72,8 +82,12 @@ export default {
     ...mapActions("auth", ["login"]),
     async loginMethod() {
       try {
+        this.loading = true
         await this.login(this.loginForm)
-        router.push({ path: '/'})
+        setTimeout(() => {
+          router.push({ path: '/'})
+          this.loading = false
+        }, 1000);
       } catch (error) {
         alert('Wrong username or password !')
       } finally {
